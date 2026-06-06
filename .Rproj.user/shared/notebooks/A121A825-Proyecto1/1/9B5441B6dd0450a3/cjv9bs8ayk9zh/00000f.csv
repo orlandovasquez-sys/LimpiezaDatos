@@ -1,0 +1,4 @@
+"0","data_sin_errores <- data_sin_errores["
+"0","  !(data_sin_errores$Ingreso < limite_inferior |"
+"0","  data_sin_errores$Ingreso > limite_superior),"
+"0","]"

@@ -1,0 +1,453 @@
+---
+title: "Proyecto1"
+author: "Orlando Vásquez"
+date: "2026-06-06"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: true
+    theme: cosmo
+---
+
+# Definición del Problema
+Se dispone de un dataset con información sociodemográfica de individuos (edad, ingreso, nivel educativo, profesión, entre otros), el cual presenta múltiples problemas de calidad como:
+
+- Datos faltantes
+- Registros duplicados
+- Inconsistencias en variables categóricas
+- Valores atípicos (outliers)
+- Datos erróneos (por ejemplo, ingresos negativos o edades irreales)
+
+El problema consiste en:
+
+Preparar y transformar el dataset para que sea apto para el entrenamiento de modelos de machine learning que apoyen la toma de decisiones.
+
+# Objetivo general
+Desarrollar un proceso completo de limpieza, transformación y preparación de datos que permita construir un dataset confiable y adecuado para aplicar técnicas de aprendizaje automático.
+
+# Objetivos específicos
+## Identificar problemas de calidad de datos
+
+Detectar valores faltantes, duplicados e inconsistencias.
+
+## Realizar limpieza de datos
+
+Tratar valores nulos.
+Eliminar o corregir registros erróneos.
+Gestionar datos atípicos.
+
+## Estandarizar variables
+
+Unificar formatos de texto (mayúsculas/minúsculas).
+Normalizar categorías (género, ciudad, estado civil).
+
+## Transformar variables
+
+Codificar variables categóricas (One-Hot, Ordinal).
+Escalar variables numéricas.
+
+## Realizar ingeniería de características
+
+Crear nuevas variables (ej. ingreso per cápita, nombre completo).
+Seleccionar variables relevantes.
+
+## Preparar el dataset final
+
+Dividir en entrenamiento y prueba.
+
+## Exportar datos
+
+# Cargar los Datos
+Verificar que se tienen el archivo a trabajar en la carpeta Datos
+
+```{r}
+list.files("../Datos") # Verificar que archivos están en el proyecto
+```
+```{r}
+data <- read.csv("../Datos/dataset_clase_1.csv")
+```
+```{r}
+data
+```
+## Exploración de Datos
+```{r}
+head(data)
+```
+## Dimensiones del dataset
+```{r}
+dim(data)
+```
+## Conocer el nombre de las columnas (variables)
+```{r}
+colnames(data)
+```
+## Estructura de los datos
+```{r}
+str(data)
+```
+El conjunto de datos contiene 30 observaciones y 12 variables, combinando información numérica y categórica sobre características demográficas, económicas y sociales de las personas registradas. Entre las variables cuantitativas se encuentran la edad, el ingreso y el número de hijos, mientras que las variables cualitativas incluyen género, ciudad, profesión, nivel educativo y estado civil. La estructura muestra que existen algunos valores perdidos en variables como edad e ingreso, además de inconsistencias en la escritura de categorías, por ejemplo diferencias entre mayúsculas y minúsculas (“MASCULINO” y “Masculino”) y variaciones en acentos. También se observan posibles valores atípicos, como una edad de 200 años y un ingreso de 50000, que podrían afectar el análisis estadístico. En general, la base es adecuada para aplicar procesos de limpieza, transformación y análisis exploratorio de datos, permitiendo estudiar patrones relacionados con características personales, económicas y educativas de la población registrada.
+
+## Distribución frecuencias por columna
+```{r}
+freq_profesion <- table(data$Profesion)
+freq_profesion
+```
+### Mejor Presentación usando tablas
+```{r}
+freq_profesion <- data.frame(sort(table(data$Profesion),
+                                      decreasing = TRUE))
+
+colnames(freq_profesion) <- c("Profesion", "Frecuencia")
+
+freq_profesion
+```
+La variable Profesión presenta una alta diversidad ocupacional, siendo Ingeniero la profesión más frecuente con 8 registros, lo que indica un predominio del área de ingeniería dentro del conjunto de datos. Otras profesiones con presencia moderada son Docente y Estudiante, con 3 registros cada una. Además, varias categorías aparecen con frecuencias similares, como Abogada, Administrador, Comerciante, Contador, Diseñadora, Empresario y Psicóloga, cada una con 2 observaciones. También se identifican profesiones con una sola aparición, como Ingeniera y Médico. Se observa una posible inconsistencia en la variable debido al uso de formas masculinas y femeninas para una misma profesión, por ejemplo, Ingeniero e Ingeniera, lo que sugiere la necesidad de estandarizar las categorías antes de realizar análisis más precisos.
+```{r}
+freq_ciudad <- table(data$Ciudad)
+freq_ciudad
+```
+```{r}
+freq_ciudad <- data.frame(sort(table(data$Ciudad),
+                                      decreasing = TRUE))
+
+colnames(freq_ciudad) <- c("Ciudad", "Frecuencia")
+
+freq_ciudad
+```
+La variable ciudad presenta una distribución relativamente concentrada en tres ciudades principales: Bogotá con 11 registros, Cali con 9 y Medellín con 8. Sin embargo, se observan inconsistencias en la escritura de la categoría Bogotá, ya que también aparecen las variantes “bogota” y “bogotá” en minúsculas y con diferencias en el uso de tildes. Aunque representan la misma ciudad, el sistema las interpreta como categorías diferentes, generando duplicidad y afectando los análisis de frecuencia. Este tipo de problema es común en bases de datos reales y evidencia la necesidad de realizar procesos de limpieza y estandarización de texto, como convertir todos los registros a mayúsculas o minúsculas y unificar el uso de caracteres especiales antes de efectuar análisis estadísticos o visualizaciones.
+```{r}
+freq_genero <- table(data$Genero)
+freq_genero <- data.frame(sort(table(data$Genero),
+                                      decreasing = TRUE))
+
+colnames(freq_ciudad) <- c("Genero", "Frecuencia")
+
+freq_genero
+```
+La variable Género presenta inconsistencias en la forma de registrar las categorías, ya que aparecen diferencias en el uso de mayúsculas y minúsculas. La categoría más frecuente es MASCULINO con 16 registros, seguida de Femenino con 8 y FEMENINO con 5. Además, aparece un registro como Masculino con 1 observación. Esto evidencia problemas de estandarización en los datos, puesto que categorías equivalentes están siendo tratadas como diferentes. Antes de realizar análisis estadísticos o visualizaciones, es recomendable unificar los valores en categorías únicas, por ejemplo, “Masculino” y “Femenino”, para evitar sesgos en los resultados y obtener frecuencias reales.
+```{r}
+freq_estado <- table(data$Estado_Civil)
+freq_estado <- data.frame(sort(table(data$Estado_Civil),
+                                      decreasing = TRUE))
+
+colnames(freq_ciudad) <- c("Estado_Civil", "Frecuencia")
+
+freq_estado
+```
+La variable Estado Civil presenta inconsistencias en la escritura de las categorías, lo que evidencia problemas de estandarización en los datos. Por ejemplo, aparecen registros como “Soltera”, “SOLTERO” y “Soltero”, así como “Casado”, “CASADO” y “Casada”, que representan esencialmente las mismas categorías pero con diferencias en mayúsculas, género o formato de escritura. La categoría más frecuente es “Soltera” con 10 registros, seguida de “Casado” con 8 registros. También se identifican registros de “Union libre” y “UNION LIBRE”, que igualmente deberían unificarse. Estas inconsistencias pueden afectar los análisis estadísticos y las visualizaciones, ya que el sistema interpreta cada variación como una categoría distinta. Por ello, se recomienda realizar un proceso de limpieza y normalización de texto, convirtiendo todas las categorías a un mismo formato antes de analizar la variable.
+```{r}
+freq_profesion <- table(data$Estado_Civil)
+freq_profesion <- data.frame(sort(table(data$Profesion),
+                                      decreasing = TRUE))
+
+colnames(freq_profesion) <- c("Profesion", "Frecuencia")
+
+freq_profesion
+```
+La variable Profesión presenta una alta diversidad ocupacional, siendo Ingeniero la profesión más frecuente con 8 registros, lo que indica un predominio del área de ingeniería dentro del conjunto de datos. Otras profesiones con presencia moderada son Docente y Estudiante, con 3 registros cada una. Además, varias categorías aparecen con frecuencias similares, como Abogada, Administrador, Comerciante, Contador, Diseñadora, Empresario y Psicóloga, cada una con 2 observaciones. También se identifican profesiones con una sola aparición, como Ingeniera y Médico. Se observa una posible inconsistencia en la variable debido al uso de formas masculinas y femeninas para una misma profesión, por ejemplo, Ingeniero e Ingeniera, lo que sugiere la necesidad de estandarizar las categorías antes de realizar análisis más precisos.
+
+## Análisis de variables Cuantitativas
+### Edad
+```{r}
+summary(data$Edad)
+```
+La variable edad presenta una distribución concentrada principalmente entre 25 y 37 años, ya que el primer cuartil es 25.75 y el tercer cuartil es 37.25. La mediana es de 29.5 años, lo que indica que la mitad de las personas tiene menos de 30 años aproximadamente. Sin embargo, la media es de 38.29 años, considerablemente mayor que la mediana, lo cual sugiere la presencia de valores atípicos que elevan el promedio. Esto se confirma con el valor máximo registrado de 200 años, un dato poco realista que probablemente corresponde a un error de digitación o captura. Además, se identificaron 2 valores faltantes (NA’s), por lo que se recomienda realizar un proceso de limpieza de datos antes de continuar con análisis más avanzados.
+
+### Análisis Ingreso
+```{r echo=FALSE}
+summary(data$Ingreso)
+```
+La variable ingresos presenta una alta dispersión en los datos. El valor mínimo registrado es de −2000, lo cual resulta poco realista para un ingreso y probablemente corresponde a un error de digitación, un valor incorrecto o un caso especial como deudas o pérdidas no especificadas. El primer cuartil es 1200 y el tercer cuartil 1625, lo que indica que el 50% central de los ingresos se concentra en ese rango. La mediana es de 1325, mientras que la media asciende a 3200, mostrando una diferencia considerable causada por valores extremadamente altos. Esto se confirma con el valor máximo de 50000, que actúa como un valor atípico (outlier) y eleva significativamente el promedio. Además, existen 2 valores faltantes (NA), por lo que antes de realizar análisis estadísticos o modelos predictivos se debe tratar los valores nulos y revisar tanto los ingresos negativos como los valores excesivamente altos.
+
+## Histograma para analizar distribución variables - Diagrama de cajas
+### Ingreso
+```{r}
+boxplot(
+  data$Ingreso,
+  horizontal = TRUE,
+  col = "skyblue",
+  border = "darkblue",
+  main = "Cajas y Bigotes de Ingresos",
+  xlab = "Ingreso"
+)
+```
+
+El boxplot de la variable Ingreso muestra una distribución altamente asimétrica hacia la derecha. La mayoría de los ingresos se concentran en valores relativamente bajos, aproximadamente entre 1000 y 2000, lo cual se evidencia por la caja pequeña y cercana al origen. Sin embargo, aparecen varios valores atípicos (outliers), especialmente uno extremadamente alto cercano a 50000, que provoca una gran dispersión en la escala y desplaza visualmente el resto de los datos hacia la izquierda. También se observan algunos ingresos negativos, lo que podría indicar errores de digitación o situaciones particulares en los datos. Debido a estos valores extremos, la media de los ingresos probablemente sea mucho mayor que la mediana, indicando que unos pocos ingresos altos influyen significativamente en el promedio general.
+
+### Edad
+```{r}
+boxplot(
+  data$Edad,
+  horizontal = TRUE,
+  col = "skyblue",
+  border = "darkblue",
+  main = "Cajas y Bigotes de Edad",
+  xlab = "Ingreso"
+)
+```
+# Limpieza de Datos
+## Valores Faltantes
+```{r}
+total_na <- sum(is.na(data))
+
+print(paste("Total de datos perdidos:", total_na))
+```
+```{r}
+library(dplyr)
+```
+
+## Valores faltantes por Columnas
+```{r}
+# Número de datos perdidos por columna
+na_por_columna <- colSums(is.na(data))
+
+# Crear un dataframe con los resultados
+
+tabla_na <- data.frame(
+  Columna = names(na_por_columna), # obtiene los nombres de las columnas
+  Datos_Perdidos = na_por_columna # contiene la cantidad de NA por variable
+)
+
+# tabla_na
+# Agregar una fila con el total de datos perdidos
+
+tabla_na <- rbind(tabla_na, data.frame(Columna = "Total", Datos_Perdidos = total_na)) # rbind() agrega filas a una tabla, una fila con Total y datos perdidos
+
+
+#tabla_na
+
+# Ordenar la tabla en orden descendente
+tabla_na_ordenada <- tabla_na %>%
+  filter(Columna != "Total") %>%  # Excluir la fila "Total"
+  arrange(desc(Datos_Perdidos)) %>%  # Ordenar de mayor a menor
+  rbind(data.frame(Columna = "Total", Datos_Perdidos = total_na))  # Agregar la fila "Total" al final
+
+tabla_na_ordenada
+```
+## Total datos Duplicados
+```{r}
+sum(duplicated(data))
+```
+
+## Mostrar datos duplicados
+```{r}
+data[duplicated(data), ]
+```
+```{r}
+filas_repetidas <- data[c(1, 7, 30), ]
+filas_repetidas
+```
+## Datos repetidos sin tener en cuenta el ID
+```{r}
+data_sin <-(data[ , -1])
+head(data_sin)
+```
+## Repetidas sin ID
+```{r}
+sum(duplicated(data_sin))
+```
+## Eliminar las filas repetidas.
+```{r}
+data_sin <- data[!duplicated(data[ , -1]), ]
+head(data_sin)
+```
+Dimensiones de la data sin datos repetidos.
+```{r}
+dim(data_sin)
+```
+## Eliminar Datos Perdidos
+```{r}
+# Eliminar filas con valores perdidos (NA)
+data_limpia <- na.omit(data_sin)
+head(data_limpia)
+```
+```{r}
+dim(data_limpia)
+```
+
+## Dejar las variables solo con la primera letra en mayúscula
+```{r}
+# Variables cualitativas
+vars_cualitativas <- c(
+  "Nombre",
+  "Apellido",
+  "Genero",
+  "Ciudad",
+  "Profesion",
+  "Nivel_Educativo",
+  "Estado_Civil",
+  "Email"
+)
+```
+```{r}
+# Quitar tildes usando iconv()
+data_limpia[vars_cualitativas] <- lapply(
+  data_limpia[vars_cualitativas],
+  function(x) {
+    x <- as.character(x)
+    x <- tolower(x)
+    x <- iconv(x, from = "UTF-8", to = "ASCII//TRANSLIT")
+    paste0(
+      toupper(substr(x, 1, 1)),
+      substr(x, 2, nchar(x))
+    )
+  }
+)
+
+# Ver resultados
+head(data_limpia)
+```
+```{r}
+table(data_limpia$Ciudad)
+```
+```{r}
+table(data_limpia$Genero)
+```
+```{r}
+tabla_estado <- data.frame(sort(table(data_limpia$Estado_Civil),
+                                      decreasing = TRUE))
+
+colnames(tabla_estado) <- c("Estado Civil", "Frecuencia")
+
+tabla_estado
+```
+
+
+## Cambiar casado y casada a: Casado, y soltero y soltera a: Soltero, en una nueva columna.
+```{r}
+data_limpia$Estado_Civil_Limpio <- ifelse(
+  tolower(data_limpia$Estado_Civil) %in% c("casado", "casada"),
+  "Casado",
+  ifelse(
+    tolower(data_limpia$Estado_Civil) %in% c("soltero", "soltera"),
+    "Soltero",
+    data_limpia$Estado_Civil
+  )
+)
+```
+```{r}
+table(data_limpia$Genero)
+```
+
+## Corrección de errores o inconsistencias
+```{r}
+summary(data$Ingreso)
+```
+
+```{r}
+# Mostrar filas donde Ingreso es negativo
+data_limpia[data_limpia$Ingreso <= 0, ]
+```
+```{r}
+data_limpia[data_limpia$Edad <= 0 | data_limpia$Edad >100, ]
+```
+
+```{r}
+# Mostrar filas donde Ingreso es negativo o mayor a 100
+data_limpia[data_limpia$Hijos < 0 | data_limpia$Hijos > 12, ]
+```
+
+```{r}
+head(data_limpia)
+```
+## Quitar los registros con las inconsistencias encontradas.
+```{r}
+data_sin_errores <- data_limpia[
+  !(data_limpia$Edad <= 0 | data_limpia$Edad > 100 |
+    data_limpia$Ingreso < 0),
+]
+```
+
+## Identificación de Valores Atípicos
+Los valores atípicos (outliers) son observaciones que presentan un comportamiento inusual respecto al resto de los datos. Estos valores pueden deberse a errores de digitación, problemas en la recolección de datos o variaciones reales dentro de la población estudiada. La detección de valores atípicos es una etapa fundamental del análisis exploratorio, ya que pueden afectar medidas estadísticas como la media, la desviación estándar y los modelos estadísticos.
+
+Uno de los métodos más utilizados para identificar valores atípicos es el criterio del rango intercuartílico (IQR, Interquartile Range). Este método se basa en los cuartiles de la distribución:
+
+Q1: primer cuartil (25% de los datos).
+Q3: tercer cuartil (75% de los datos).
+IQR: diferencia entre Q3 y Q1.
+IQR=Q3−Q1
+
+A partir del IQR se establecen límites para detectar observaciones extremas:
+
+Límite inferior=Q1−1.5×IQR
+
+Límite superior=Q3+1.5×IQR
+
+Los datos que se encuentran por debajo del límite inferior o por encima del límite superior se consideran valores atípicos.
+```{r}
+# Calcular cuartiles
+Q1 <- quantile(data_sin_errores$Ingreso, 0.25 ) 
+Q3 <- quantile(data_sin_errores$Ingreso, 0.75) # data_sin_errores$Ingreso, 0.75, na.rm = TRUE si no se han quitado los valores perdidos.
+
+# Calcular rango intercuartílico
+IQR_valor <- IQR(data_sin_errores$Ingreso)
+
+# Definir límites
+limite_inferior <- Q1 - 1.5 * IQR_valor
+limite_superior <- Q3 + 1.5 * IQR_valor
+
+# Mostrar valores atípicos
+valores_atipicos <- data_sin_errores[
+  data_sin_errores$Ingreso < limite_inferior |
+  data_sin_errores$Ingreso > limite_superior,
+]
+
+valores_atipicos
+```
+
+```{r}
+data_sin_errores <- data_sin_errores[
+  !(data_sin_errores$Ingreso < limite_inferior |
+  data_sin_errores$Ingreso > limite_superior),
+]
+```
+```{r}
+table(data_sin_errores$Ciudad)
+```
+```{r}
+summary(data_sin_errores$Ingreso)
+```
+
+```{r}
+# Cantidad de datos perdidos por columna
+colSums(is.na(data_sin_errores))
+```
+
+```{r}
+dim(data_sin_errores)
+```
+
+```{r}
+# Calcular estadísticos
+estadisticos <- data.frame(
+  Estadistico = c("Media", "Mediana", "Desviacion Estandar", "Minimo", "Maximo", "Q1 (25%)", "Q2 (50%)", "Q3 (75%)"),
+  Valor = c(
+    mean(data_sin_errores$Ingreso),
+    median(data_sin_errores$Ingreso),
+    sd(data_sin_errores$Ingreso),
+    min(data_sin_errores$Ingreso),
+    max(data_sin_errores$Ingreso),
+    quantile(data_sin_errores$Ingreso, probs = 0.25),
+    quantile(data_sin_errores$Ingreso, probs = 0.50),
+    quantile(data_sin_errores$Ingreso, probs = 0.75)
+  )
+)
+estadisticos
+```
+
+## Estandarización de Variables
+```{r}
+data_sin_errores$Ingreso_est <- scale(data_sin_errores$Ingreso) 
+```
+
+```{r}
+summary(data_sin_errores$Ingreso_est)
+```
+
+```{r}
+dim(data_sin_errores)
+```
+## Normalización Min-Max y Transformación
+

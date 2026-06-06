@@ -1,0 +1,7 @@
+"0","# Normalización Min-Max"
+"0","data_sin_errores$Ingreso_norm <- ("
+"0"," data_sin_errores$Ingreso - min(data_sin_errores$Ingreso)"
+"0",") / ("
+"0","  max(data_sin_errores$Ingreso) -"
+"0","  min(data_sin_errores$Ingreso)"
+"0",")"

@@ -1,0 +1,6 @@
+"0","tabla_estado <- data.frame(sort(table(data_limpia$Estado_Civil),"
+"0","                                      decreasing = TRUE))"
+"0",""
+"0","colnames(tabla_estado) <- c(""Estado Civil"", ""Frecuencia"")"
+"0",""
+"0","tabla_estado"

@@ -1,0 +1,7 @@
+"0","freq_genero <- table(data$Genero)"
+"0","freq_genero <- data.frame(sort(table(data$Genero),"
+"0","                                      decreasing = TRUE))"
+"0",""
+"0","colnames(freq_ciudad) <- c(""Genero"", ""Frecuencia"")"
+"0",""
+"0","freq_genero"

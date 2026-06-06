@@ -1,0 +1,4 @@
+"0","data_sin_errores <- data_limpia["
+"0","  !(data_limpia$Edad <= 0 | data_limpia$Edad > 100 |"
+"0","    data_limpia$Ingreso < 0),"
+"0","]"

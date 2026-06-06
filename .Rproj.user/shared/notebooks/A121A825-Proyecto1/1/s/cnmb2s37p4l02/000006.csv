@@ -1,0 +1,8 @@
+"0","boxplot("
+"0","  data$Edad,"
+"0","  horizontal = TRUE,"
+"0","  col = ""skyblue"","
+"0","  border = ""darkblue"","
+"0","  main = ""Cajas y Bigotes de Edad"","
+"0","  xlab = ""Ingreso"""
+"0",")"

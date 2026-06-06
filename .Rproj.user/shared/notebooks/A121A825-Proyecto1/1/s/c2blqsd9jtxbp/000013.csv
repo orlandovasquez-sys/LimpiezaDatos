@@ -1,0 +1,6 @@
+"0","freq_ciudad <- data.frame(sort(table(data$Ciudad),"
+"0","                                      decreasing = TRUE))"
+"0",""
+"0","colnames(freq_ciudad) <- c(""Ciudad"", ""Frecuencia"")"
+"0",""
+"0","freq_ciudad"

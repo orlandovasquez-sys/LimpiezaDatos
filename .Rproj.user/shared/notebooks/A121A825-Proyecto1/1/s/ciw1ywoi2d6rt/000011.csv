@@ -1,0 +1,3 @@
+"0","# Eliminar filas con valores perdidos (NA)"
+"0","data_limpia <- na.omit(data_sin)"
+"0","head(data_limpia)"

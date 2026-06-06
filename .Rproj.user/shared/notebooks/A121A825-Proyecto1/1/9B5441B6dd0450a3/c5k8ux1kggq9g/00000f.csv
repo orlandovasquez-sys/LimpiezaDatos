@@ -1,0 +1,4 @@
+"0","library(writexl)"
+"0",""
+"0","write_xlsx(data_sin_errores,"
+"0","           ""..\\Resultados\\data_listos.xlsx"")"

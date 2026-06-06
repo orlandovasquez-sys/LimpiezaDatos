@@ -1,0 +1,2 @@
+"0","# Mostrar filas donde Ingreso es negativo"
+"0","data_limpia[data_limpia$Ingreso <= 0, ]"

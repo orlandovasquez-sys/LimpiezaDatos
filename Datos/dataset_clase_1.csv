@@ -1,0 +1,31 @@
+ID,Nombre,Apellido,Edad,Ingreso,Genero,Ciudad,Profesion,Nivel_Educativo,Estado_Civil,Hijos,Email
+1,Juan,Pérez,25.0,1200.0,MASCULINO,Bogotá,Ingeniero,Universitario,SOLTERO,0,juanp@gmail.com
+2,Ana,Gómez,30.0,1500.0,Femenino,Medellín,Abogada,Especialización,Casada,1,ana.gomez@gmail.com
+3,Carlos,Lopez,45.0,3000.0,MASCULINO,Cali,Medico,Maestría,CASADO,2,carlosl@gmail.com
+4,María,Rodríguez,29.0,,FEMENINO,Bogotá,Docente,Universitario,Soltera,0,maria@gmail.com
+5,Pedro,Martinez,35.0,-2000.0,Masculino,bogotá,Comerciante,Bachiller,UNION LIBRE,3,pedro@gmail.com
+6,Luisa,Hernandez,,1800.0,FEMENINO,Cali,Ingeniera,Universitario,Soltera,0,luisa@gmail.com
+7,Juan,Pérez,25.0,1200.0,MASCULINO,Bogotá,Ingeniero,Universitario,SOLTERO,0,juanp@gmail.com
+8,Andres,Garcia,40.0,50000.0,MASCULINO,Medellín,Empresario,Maestría,Casado,2,andres@gmail.com
+9,Sofía,Diaz,22.0,1100.0,Femenino,Cali,Estudiante,Universitario,Soltera,0,sofia@gmail.com
+10,Camilo,torres,28.0,1300.0,MASCULINO,Bogotá,Ingeniero,Universitario,Soltero,0,camilo@gmail.com
+11,Laura,Martínez,31.0,1400.0,Femenino,Medellín,Psicologa,Especialización,Casada,1,laura@gmail.com
+12,Diego,Ramirez,50.0,0.0,MASCULINO,Cali,Contador,Universitario,Casado,2,diego@gmail.com
+13,Valentina,Castro,27.0,1250.0,FEMENINO,Bogotá,Diseñadora,Universitario,Soltera,0,vale@gmail.com
+14,José,Suarez,33.0,,MASCULINO,Medellín,Ingeniero,Especialización,Casado,1,jose@gmail.com
+15,Miguel,Ortega,60.0,8000.0,MASCULINO,Cali,Administrador,Maestría,Casado,3,miguel@gmail.com
+16,Paula,Vargas,24.0,1150.0,Femenino,Bogotá,Estudiante,Universitario,Soltera,0,paula@gmail.com
+17,Andrea,Morales,29.0,1350.0,FEMENINO,Cali,Abogada,Especialización,Soltera,0,andrea@gmail.com
+18,Felipe,Rojas,,1450.0,MASCULINO,Medellín,Ingeniero,Universitario,Soltero,0,felipe@gmail.com
+19,Juliana,Navarro,26.0,1250.0,Femenino,Bogotá,Docente,Universitario,Soltera,0,juliana@gmail.com
+20,Juan,Perez,25.0,1200.0,MASCULINO,Bogotá,Ingeniero,Universitario,SOLTERO,0,juanp@gmail.com
+21,Pedro,Martinez,35.0,-1500.0,MASCULINO,bogota,Comerciante,Bachiller,Union libre,3,pedro@gmail.com
+22,Santiago,Mejia,38.0,2200.0,MASCULINO,Cali,Ingeniero,Universitario,Casado,2,santiago@gmail.com
+23,Daniela,Quintero,27.0,1400.0,Femenino,Medellín,Psicologa,Especialización,Soltera,0,daniela@gmail.com
+24,Esteban,Salazar,41.0,1600.0,MASCULINO,Bogotá,Contador,Universitario,Casado,2,esteban@gmail.com
+25,Natalia,Reyes,23.0,1000.0,Femenino,Cali,Estudiante,Universitario,Soltera,0,natalia@gmail.com
+26,Oscar,Gil,37.0,1700.0,MASCULINO,Medellín,Administrador,Universitario,Casado,2,oscar@gmail.com
+27,Claudia,Pardo,34.0,1550.0,FEMENINO,Bogotá,Docente,Especialización,Casada,1,claudia@gmail.com
+28,Ricardo,Acosta,200.0,3000.0,MASCULINO,Cali,Empresario,Maestría,Casado,4,ricardo@gmail.com
+29,Lina,Bautista,28.0,1300.0,Femenino,Medellín,Diseñadora,Universitario,Soltera,0,lina@gmail.com
+30,Juan,Pérez,25.0,1200.0,MASCULINO,Bogotá,Ingeniero,Universitario,SOLTERO,0,juanp@gmail.com

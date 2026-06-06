@@ -1,0 +1,7 @@
+"0","total_na <- sum(is.na(data))"
+"0",""
+"0","print(paste(""Total de datos perdidos:"", total_na))"
+"1","[1]"
+"1"," ""Total de datos perdidos: 4"""
+"1","
+"
